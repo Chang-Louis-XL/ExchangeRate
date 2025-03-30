@@ -6,7 +6,15 @@
 
 ## 安裝步驟:
 
-   * 安裝 Composer 依賴
+   * 複製專案: 
+   ```
+   git clone  https://github.com/Chang-Louis-XL/ExchangeRate.git
+   ```
+   * 進入專案資料夾:
+   ```
+   cd ExchangeRate
+   ```
+   * 進入終端機安裝 Composer 依賴
    ```
    composer install
    ```
