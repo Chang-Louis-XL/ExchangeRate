@@ -1,10 +1,28 @@
 # ExchangeRate 專案
 
-## 流程圖
-
+## 流程圖:
 
 ![專案流程圖](./images/Flowchart.png)
 
+## 安裝步驟:
+
+   * 安裝 Composer 依賴
+   ```
+   composer install
+   ```
+   * 建立環境設定檔
+   ```
+   copy .env.example .env
+   ```
+   * 產生應用程式金鑰
+   ```
+   php artisan key:generate
+   ```
+   * 啟動服務
+   ```
+   php artisan serve
+   ```
+   * 訪問網站：http://localhost:8000
 
 
 ## 專案設置說明:
@@ -45,6 +63,7 @@
    
    2. **getSupportedCurrenciesArray 方法**：
       * 從 $this->currencies中提取所有的base_currency值，並將其組成一個陣列返回。
+
 
 
 
