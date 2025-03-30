@@ -14,7 +14,7 @@
    ```
    cd ExchangeRate
    ```
-   * 進入終端機安裝 Composer 依賴
+   * 在終端機安裝 Composer 依賴
    ```
    composer install
    ```
