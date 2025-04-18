@@ -35,6 +35,12 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+
+                Route::middleware(['web'])  // 可視需求添加 'auth' 等中間件
+                ->prefix('backend')
+                ->name('backend.')
+                ->group(base_path('routes/backend.php'));
+        
         });
     }
 }
