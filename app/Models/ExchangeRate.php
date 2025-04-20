@@ -12,19 +12,10 @@ class ExchangeRate extends Model
     protected $fillable = ['base_currency', 'target_currency', 'rate', 'last_updated'];
     
     protected $casts = [
+        // datetime 自動轉換為 Carbon 日期時間物件
         'last_updated' => 'datetime',
+        // decimal:8（最多 8 位小數）
         'rate' => 'decimal:8',
     ];
     
-    // 取得基準貨幣
-    public function baseCurrency()
-    {
-        return $this->belongsTo(Currency::class, 'base_currency', 'code');
-    }
-    
-    // 取得目標貨幣
-    public function targetCurrency()
-    {
-        return $this->belongsTo(Currency::class, 'target_currency', 'code');
-    }
 }

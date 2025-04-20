@@ -38,6 +38,7 @@ class CurrencyController extends Controller
             ->orWhere('target_currency', $currency->code)
             ->get();
         
+        // compact 是PHP 的一個輔助函式，它會把變數 $currency 和 $exchangeRates 組成一個關聯陣列：
         return view('backend.show', compact('currency', 'exchangeRates'));
     }
 
@@ -47,14 +48,15 @@ class CurrencyController extends Controller
     public function edit($id)
     {
         $currency = Currency::findOrFail($id);
-        $otherCurrencies = Currency::where('id', '!=', $id)->get();
-        
+
         // 獲取當前幣別的匯率資訊 (排除對自身的匯率)
+        $otherCurrencies = Currency::where('id', '!=', $id)->get();
         $existingRates = ExchangeRate::where('base_currency', $currency->code)
             ->where('target_currency', '!=', $currency->code)
             ->get()
+            // ->keyBy('') 意思是用 target_currency 欄位的值作為每一筆資料的 key
             ->keyBy('target_currency');
-        
+
         return view('backend.edit', compact('currency', 'otherCurrencies', 'existingRates'));
     }
 }

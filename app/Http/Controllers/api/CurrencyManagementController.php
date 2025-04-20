@@ -131,18 +131,21 @@ class CurrencyManagementController extends Controller
         // 建立一個驗證器（Validator），呼叫 Validator 類別的 make 方法，用來檢查 $request 送來的所有資料是否符合規則
         $validator = Validator::make($request->all(), [
             'code' => [
-                // 必填天寫
                 'required', 
-                // 必須是字串
                 'string', 
+                // Rule::unique(唯一)建立一個驗證規則，要求 code 欄位在 currencies 資料表中必須是唯一
+                // ->ignore(忽略) 這樣當使用者更新現有幣別時，可以保持相同的代碼而不會被系統視為重複
                 Rule::unique('currencies')->ignore($currency->id)
             ],
             'name' => 'required|string|max:255',
-            // 欄位可以不填（nullable），如果有的話必須是陣列
             'rates' => 'nullable|array',
             'rates.*.target_currency' => 'required|string',
-            // rates 陣列中每一筆的 rate 欄位必須存在、是數字、且大於 0
             'rates.*.rate' => 'required|numeric|gt:0',
+        ], [
+            // 自訂錯誤訊息
+            'rates.*.rate.required' => 'field is required',
+            'rates.*.rate.numeric' => 'field must be a number',
+            'rates.*.rate.gt' => 'field must be greater than 0',
         ]);
 
         if ($validator->fails()) {
@@ -167,6 +170,8 @@ class CurrencyManagementController extends Controller
             }
         }
 
+        // DB::beginTransaction() 開始準備執行資料庫處理，沒有發生錯誤時DB::commit() 
+        // 會提交所有的變更，讓資料庫更新生效；如果發生錯誤則DB::rollBack() 會回復到開始處理的狀態。
         DB::beginTransaction();
         try {
             // 更新幣別基本資料
@@ -174,6 +179,8 @@ class CurrencyManagementController extends Controller
                 'code' => $newCode,
                 'name' => $request->name
             ]);
+
+
 
             // 使用 Carbon 這個日期時間套件
             $now = Carbon::now();
