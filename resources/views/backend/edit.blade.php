@@ -61,6 +61,7 @@
                                                                 name="rates[{{ $index }}][rate]"
                                                                 data-index="{{ $index }}" data-field="rate"
                                                                 step="0.000001" min="0.000001" placeholder="請輸入匯率值"
+                                                                required
                                                                 value="{{ old('rates.' . $index . '.rate', isset($existingRates[$targetCurrency->code]) ? $existingRates[$targetCurrency->code]->rate : '') }}">
                                                             <span
                                                                 class="input-group-text">{{ $targetCurrency->code }}</span>
@@ -98,6 +99,7 @@
         $(document).ready(function() {
             $('#editForm').submit(function(e) {
                 e.preventDefault();
+
 
                 // 清除之前的錯誤訊息
                 $('.is-invalid').removeClass('is-invalid');

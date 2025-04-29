@@ -35,7 +35,7 @@
                     </table>
                 </div>
             </div>
-            
+
             <h4>相關匯率資料</h4>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover">
@@ -56,7 +56,7 @@
                             <td>{{ $rate->last_updated }}</td>
                         </tr>
                         @endforeach
-                        
+
                         @if(count($exchangeRates) == 0)
                         <tr>
                             <td colspan="4" class="text-center">沒有相關匯率資料</td>
@@ -64,39 +64,44 @@
                         @endif
                     </tbody>
                 </table>
+                <div class="d-flex mt-3">
+                    <a href="{{ route('backend.edit', $currency->id) }}" class="btn btn-warning me-2">編輯此幣別</a>
+                    <button type="button" id="deleteBtn" class="btn btn-danger">刪除此幣別</button>
+                </div>
             </div>
         </div>
     </div>
-    
-    <div class="d-flex mt-3">
-        <a href="{{ route('backend.edit', $currency->id) }}" class="btn btn-warning me-2">編輯此幣別</a>
-        <button type="button" id="deleteBtn" class="btn btn-danger">刪除此幣別</button>
-    </div>
+
+
 </div>
 @endsection
 
 @section('scripts')
 <script>
-$(document).ready(function() {
-    $('#deleteBtn').click(function() {
-        if (confirm('確定要刪除此幣別嗎？')) {
-            const currencyId = {{ $currency->id }};
-            
-            $.ajax({
-                url: `/api/currencies/${currencyId}`,
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    window.location.href = "{{ route('backend.index') }}?success=幣別刪除成功！";
-                },
-                error: function(xhr) {
-                    alert(xhr.responseJSON?.error || '刪除失敗');
-                }
-            });
-        }
+    $(document).ready(function() {
+        $('#deleteBtn').click(function() {
+            if (confirm('確定要刪除此幣別嗎？')) {
+                const currencyId = {
+                    {
+                        $currency - > id
+                    }
+                };
+
+                $.ajax({
+                    url: `/api/currencies/${currencyId}`,
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        window.location.href = "{{ route('backend.index') }}?success=幣別刪除成功！";
+                    },
+                    error: function(xhr) {
+                        alert(xhr.responseJSON?.error || '刪除失敗');
+                    }
+                });
+            }
+        });
     });
-});
 </script>
 @endsection
