@@ -1,0 +1,10 @@
+/* 你可以在這裡添加自定義樣式 */
+.result-box {
+    margin-top: 20px;
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

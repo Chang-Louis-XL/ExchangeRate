@@ -1,13 +1,26 @@
 /**
- * We'll load the axios HTTP library which allows us to easily issue requests
- * to our Laravel back-end. This library automatically handles sending the
- * CSRF token as a header based on the value of the "XSRF" token cookie.
+ * 我們會將 axios HTTP 函式庫引入到 JavaScript 應用程式中。
+ * 這個函式庫非常好用，允許我們執行非同步的 HTTP 請求
+ * 並輕鬆執行請求與處理回應。
  */
 
 import axios from 'axios';
 window.axios = axios;
 
+// 為所有 HTTP 請求設置默認標頭
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+/**
+ * 添加 CSRF 令牌作為默認標頭，這樣所有通過 axios 的請求都會帶上它
+ * 這對於 POST, PUT, PATCH, DELETE 請求是必需的
+ */
+const csrfToken = document.head.querySelector('meta[name="csrf-token"]');
+
+if (csrfToken) {
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken.content;
+} else {
+    console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
